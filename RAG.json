@@ -1,0 +1,278 @@
+{
+  "name": "RAG",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "tearms",
+        "formDescription": "upload your file",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "file",
+              "fieldType": "file"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c2e34c1e-91f9-4676-bdf2-f6141b714e3b",
+      "name": "On form submission",
+      "webhookId": "b9ef1b12-0bb4-4414-8cf7-2b17107acd43"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "YOUR_ID"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        0
+      ],
+      "id": "71eebcb0-7e24-430f-89de-7020f6c0d89a",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        224,
+        208
+      ],
+      "id": "66738bbf-d66f-4359-9aa9-f82126657d2a",
+      "name": "Embeddings Google Gemini"
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        368,
+        208
+      ],
+      "id": "6f27369d-a39d-48fb-9a38-d7ec2cfb47b6",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 200,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        464,
+        416
+      ],
+      "id": "d5e82824-73dd-4578-adef-4161488114a2",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        624,
+        16
+      ],
+      "id": "fb68c374-c573-41e4-a2fa-243c92183efe",
+      "name": "When chat message received",
+      "webhookId": "ac1e95ba-5d8e-4ea9-8da4-84d01ce45f79"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        832,
+        48
+      ],
+      "id": "698b1878-f800-4ae1-95bf-0695791aae72",
+      "name": "AI Agent",
+      "notes": "You are an expert AI Assistant and Problem-Solving Tutor specialized in Computer Science, Algorithms, Data Structures, and Complexity Analysis (including Divide & Conquer, Master Method, Merge Sort, and Binary Search).\n\nMANDATORY RULES:\n1. LANGUAGE ADAPTABILITY: Automatically detect and respond in the same language used by the user in their current message (whether it is Arabic, English, or any other language), while maintaining precise technical terminology.\n2. STRICT KNOWLEDGE SOURCE: You MUST ALWAYS use the \"Simple Vector Store 1\" tool to retrieve reference documents, lecture notes, and formulas before answering any technical question. Never rely on internal or general knowledge for algorithm problems if documents are available.\n3. RELEVANCE & PURITY: If the retrieved documents contain unrelated or mixed topics (such as non-algorithmic notes or personal files), completely ignore them and focus exclusively on algorithmic analysis and problem-solving.\n4. STEP-BY-STEP REASONING: For recurrence relations and Master Method problems, you must explicitly break down and state:\n   - Parameter 'a' (number of subproblems)\n   - Parameter 'b' (factor by which problem size decreases)\n   - Function f(n) (work done outside recursive calls)\n   - Calculating d = log_b(a) and comparing f(n) with n^d to determine the correct case and final Big-O complexity.\n5. STRUCTURED FORMATTING: Present answers clearly, professionally, and in a structured format suitable for technical problem-solving."
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        768,
+        272
+      ],
+      "id": "dab8aef6-2d03-4e2e-97a6-1ceaf98c7314",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        928,
+        256
+      ],
+      "id": "22167c90-c811-43ab-93e0-cb9df42c19a9",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "vector store",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "YOUR_ID"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        1040,
+        256
+      ],
+      "id": "90f431d2-1df4-481b-8332-0136ee6ac123",
+      "name": "Simple Vector Store1",
+      "notes": "Use this tool to search and retrieve algorithm notes, Master Method formulas, and recurrence relations to solve computer science problems accurately."
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        384
+      ],
+      "id": "0bbd766b-5581-48cf-901f-8d66eb4f79ee",
+      "name": "Embeddings Google Gemini1"
+    }
+  ],
+  "connections": {
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "nodeGroups": []
+}
