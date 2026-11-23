@@ -1,20 +1,317 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNA People HR Automation</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMNA | People HR Automation</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fc;
+  color: #17233d;
+}
+
+.sidebar {
+  position: fixed;
+  width: 245px;
+  height: 100vh;
+  background: #101d36;
+  color: white;
+  padding: 32px 22px;
+}
+
+.logo {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #fff;
+}
+
+.logo span { color: #42b8f5; }
+
+.sublogo {
+  font-size: 11px;
+  color: #91a4c4;
+  margin-top: 8px;
+  letter-spacing: 2px;
+}
+
+.menu-title {
+  color: #8193b1;
+  font-size: 11px;
+  margin: 55px 0 18px;
+  letter-spacing: 2px;
+}
+
+.menu-item {
+  padding: 14px;
+  border-radius: 9px;
+  color: #d5def0;
+  margin-bottom: 9px;
+  font-size: 14px;
+}
+
+.menu-item.active {
+  background: #243b60;
+  color: #55c2ff;
+}
+
+.main {
+  margin-left: 245px;
+  padding: 38px 45px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 38px;
+  gap: 15px;
+}
+
+.topbar h2 { font-size: 23px; }
+
+.topbar p {
+  color: #8491a7;
+  font-size: 13px;
+  margin-top: 7px;
+}
+
+.profile {
+  background: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.hero {
+  background: linear-gradient(120deg, #142746, #2469a6);
+  color: white;
+  padding: 38px;
+  border-radius: 18px;
+  margin-bottom: 30px;
+}
+
+.hero small {
+  color: #70d1ff;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.hero h1 {
+  font-size: 30px;
+  margin: 17px 0 12px;
+}
+
+.hero p {
+  color: #d4e3f6;
+  line-height: 1.7;
+  max-width: 600px;
+  font-size: 14px;
+}
+
+.section-title {
+  font-size: 19px;
+  margin: 32px 0 19px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.stat, .workflow {
+  background: white;
+  border: 1px solid #e8edf5;
+  border-radius: 14px;
+  padding: 23px;
+}
+
+.stat-label {
+  color: #8491a7;
+  font-size: 13px;
+}
+
+.stat-number {
+  font-size: 29px;
+  font-weight: bold;
+  margin-top: 13px;
+  color: #1e4777;
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.workflow {
+  transition: .2s;
+}
+
+.workflow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px #1a315018;
+}
+
+.workflow-icon {
+  width: 43px;
+  height: 43px;
+  background: #e9f4ff;
+  color: #247ac1;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+  margin-bottom: 17px;
+}
+
+.workflow h3 {
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+.workflow p {
+  color: #7c899d;
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 42px;
+}
+
+.workflow a {
+  display: inline-block;
+  margin-top: 19px;
+  color: #1677bd;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.workflow a:hover { text-decoration: underline; }
+
+.footer {
+  text-align: center;
+  color: #929eb0;
+  font-size: 12px;
+  margin-top: 45px;
+  padding: 20px;
+}
+
+@media(max-width: 850px) {
+  .sidebar { width: 75px; padding: 25px 10px; }
+  .logo { font-size: 17px; letter-spacing: 1px; }
+  .sublogo, .menu-title, .menu-item span { display: none; }
+  .menu-item { text-align: center; padding: 13px 4px; }
+  .main { margin-left: 75px; padding: 25px 18px; }
+}
+
+@media(max-width: 550px) {
+  .stats, .workflow-grid { grid-template-columns: 1fr; }
+  .hero { padding: 25px; }
+  .hero h1 { font-size: 24px; }
+  .topbar { align-items: flex-start; }
+}
+</style>
 </head>
 <body>
-    <h1>OMNA People HR Automation</h1>
-    <p>Welcome to our HR Automation Project.</p>
-    <h2>Available Workflows</h2>
-    <ul>
-        <li>RAG</li>
-        <li>Error Handling</li>
-        <li>AI Scan</li>
-        <li>Smart Job Application</li>
-        <li>Intake</li>
-    </ul>
+
+<aside class="sidebar">
+  <div class="logo">OM<span>NA</span></div>
+  <div class="sublogo">PEOPLE AUTOMATION</div>
+
+  <div class="menu-title">MAIN MENU</div>
+  <div class="menu-item active">▦ <span>Dashboard</span></div>
+  <div class="menu-item">◈ <span>HR Workflows</span></div>
+  <div class="menu-item">⚙ <span>Settings</span></div>
+</aside>
+
+<main class="main">
+
+  <header class="topbar">
+    <div>
+      <h2>Dashboard Overview</h2>
+      <p>Welcome to your HR automation workspace.</p>
+    </div>
+    <div class="profile">OMNA Workspace</div>
+  </header>
+
+  <section class="hero">
+    <small>SMART HR MANAGEMENT</small>
+    <h1>People Operations, Simplified.</h1>
+    <p>
+      Manage your HR automation workflows from one central
+      workspace. Explore your tools for recruitment,
+      intelligent scanning, data management and more.
+    </p>
+  </section>
+
+  <h2 class="section-title">Workspace Overview</h2>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-label">Available Workflows</div>
+      <div class="stat-number">05</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Platform</div>
+      <div class="stat-number">n8n</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Workspace</div>
+      <div class="stat-number">OMNA</div>
+    </div>
+  </section>
+
+  <h2 class="section-title">HR Automation Workflows</h2>
+
+  <section class="workflow-grid">
+
+    <div class="workflow">
+      <div class="workflow-icon">◈</div>
+      <h3>RAG System</h3>
+      <p>Retrieve and process relevant information using an intelligent data workflow.</p>
+      <a href="./RAG.json">View Workflow →</a>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow-icon">⚙</div>
+      <h3>Error Handling</h3>
+      <p>Manage workflow errors and organize exception handling processes.</p>
+      <a href="./error%20handling.json">View Workflow →</a>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow-icon">⌕</div>
+      <h3>AI Scan</h3>
+      <p>Use AI-powered scanning to process and analyze incoming information.</p>
+      <a href="./AI%20scan.json">View Workflow →</a>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow-icon">✉</div>
+      <h3>Smart Job Application</h3>
+      <p>Organize job application processing and recruitment automation.</p>
+      <a href="./smartjob%20application.json">View Workflow →</a>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow-icon">▤</div>
+      <h3>Intake System</h3>
+      <p>Collect and organize incoming HR information through an automated workflow.</p>
+      <a href="./intake.json">View Workflow →</a>
+    </div>
+
+  </section>
+
+  <footer class="footer">
+    © 2026 OMNA People HR Automation. All rights reserved.
+  </footer>
+
+</main>
 </body>
 </html>
