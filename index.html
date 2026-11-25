@@ -327,6 +327,7 @@ localStorage.setItem("nexora_chat_session", SESSION_ID);
         headers: { "Content-Type": "application/json" },
        body: JSON.stringify({
   chatInput: question,
+         action: "sendMessage",
   sessionId: SESSION_ID
 })
       });
