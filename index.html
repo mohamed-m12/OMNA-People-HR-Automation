@@ -287,6 +287,10 @@ sections.forEach(s=>navObserver.observe(s));
 <script>
 (() => {
   const CHAT_URL = "https://awoke-roster-mayflower.ngrok-free.dev/webhook/ac1e95ba-5d8e-4ea9-8da4-84d01ce45f79/chat";
+  const SESSION_ID = localStorage.getItem("nexora_chat_session")
+  || crypto.randomUUID();
+
+localStorage.setItem("nexora_chat_session", SESSION_ID);
 
   const form = document.getElementById("hr-chat-form");
   const input = document.getElementById("hr-chat-input");
@@ -321,7 +325,10 @@ sections.forEach(s=>navObserver.observe(s));
       const response = await fetch(CHAT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chatInput: question })
+       body: JSON.stringify({
+  chatInput: question,
+  sessionId: SESSION_ID
+})
       });
 
       if (!response.ok) throw new Error("HTTP " + response.status);
