@@ -262,3 +262,84 @@ sections.forEach(s=>navObserver.observe(s));
 </script>
 </body>
 </html>
+<!-- NEXORA AI - HR Policy Assistant -->
+<section id="hr-assistant" style="background:#0b1224;color:#fff;padding:60px 20px;font-family:Arial,sans-serif;">
+  <div style="max-width:850px;margin:auto;">
+    <h2 style="text-align:center;color:#22d3ee;font-size:32px;">NEXORA AI — HR Assistant</h2>
+    <p style="text-align:center;color:#aab6cc;">Ask anything about HR policies and get instant AI answers.</p>
+
+    <div id="chat-box" style="height:350px;overflow-y:auto;background:#111c32;border:1px solid #263754;border-radius:14px;padding:18px;margin:25px 0;">
+      <div style="color:#22d3ee;margin-bottom:15px;">NEXORA AI: Hello! How can I help you with HR policies today?</div>
+    </div>
+
+    <form id="hr-chat-form" style="display:flex;gap:10px;">
+      <input id="hr-chat-input" type="text" placeholder="Ask your HR question..." required
+        style="flex:1;min-width:0;padding:15px;border-radius:10px;border:1px solid #334766;background:#17243c;color:white;">
+      <button id="hr-chat-send" type="submit"
+        style="padding:15px 22px;border:0;border-radius:10px;background:#06b6d4;color:#00111c;font-weight:bold;cursor:pointer;">
+        Send
+      </button>
+    </form>
+    <p id="hr-chat-status" style="color:#94a3b8;font-size:13px;"></p>
+  </div>
+</section>
+
+<script>
+(() => {
+  const CHAT_URL = "https://awoke-roster-mayflower.ngrok-free.dev/webhook/ac1e95ba-5d8e-4ea9-8da4-84d01ce45f79/chat";
+
+  const form = document.getElementById("hr-chat-form");
+  const input = document.getElementById("hr-chat-input");
+  const box = document.getElementById("chat-box");
+  const button = document.getElementById("hr-chat-send");
+  const status = document.getElementById("hr-chat-status");
+
+  function addMessage(sender, message, color) {
+    const item = document.createElement("div");
+    item.style.cssText = "margin:12px 0;padding:12px;background:#1a2942;border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere;";
+    const title = document.createElement("strong");
+    title.style.color = color;
+    title.textContent = sender + ": ";
+    const content = document.createElement("span");
+    content.textContent = message;
+    item.append(title, content);
+    box.appendChild(item);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const question = input.value.trim();
+    if (!question) return;
+
+    addMessage("You", question, "#fff");
+    input.value = "";
+    button.disabled = true;
+    status.textContent = "NEXORA AI is thinking...";
+
+    try {
+      const response = await fetch(CHAT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chatInput: question })
+      });
+
+      if (!response.ok) throw new Error("HTTP " + response.status);
+
+      const data = await response.json();
+      const answer = typeof data === "string"
+        ? data
+        : data.output || data.text || data.response || data.message || data.reply || JSON.stringify(data);
+
+      addMessage("NEXORA AI", answer, "#22d3ee");
+      status.textContent = "";
+    } catch (error) {
+      addMessage("System", "Couldn't connect to the assistant. Please try again.", "#f87171");
+      status.textContent = "Connection error: " + error.message;
+    } finally {
+      button.disabled = false;
+      input.focus();
+    }
+  });
+})();
+</script>
