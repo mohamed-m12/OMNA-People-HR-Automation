@@ -1,353 +1,1087 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#07111f">
-<title>NEXORA AI — HR Automation Suite</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXORA AI — AI Recruitment & HR Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050b14;--panel:#0b1728;--panel2:#0e1d31;--line:rgba(68,190,225,.20);--text:#edf5ff;--muted:#91a3ba;--cyan:#19d3e6;--blue:#438cff;--purple:#695cf5;--green:#19d6a0;--shadow:0 18px 55px rgba(0,0,0,.28)}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(ellipse at 12% 8%,rgba(0,177,208,.10),transparent 30%),radial-gradient(ellipse at 90% 22%,rgba(78,88,255,.10),transparent 28%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.20;background-image:linear-gradient(rgba(80,170,210,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(80,170,210,.08) 1px,transparent 1px);background-size:46px 46px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
-a{color:inherit;text-decoration:none}
-.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:22px;padding:14px 4.2%;background:rgba(7,17,31,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(140,180,220,.12)}
-.brand{display:flex;align-items:center;gap:12px;min-width:220px}
-.brand-mark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:23px;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--blue) 60%,var(--purple));box-shadow:0 8px 28px rgba(22,181,220,.25)}
-.brand-name{font-size:19px;font-weight:850;letter-spacing:.2px}
-.brand-name span{color:var(--cyan)}
-.brand-sub{font-size:11px;color:var(--muted);margin-top:-3px}
-nav{display:flex;align-items:center;gap:5px;padding:5px;border:1px solid rgba(130,170,220,.14);background:#0d1b2e;border-radius:17px}
-nav a{padding:9px 16px;border-radius:12px;color:var(--muted);font-weight:650;font-size:14px;transition:.25s}
-nav a:hover,nav a.active{color:white;background:linear-gradient(120deg,#0eb8d3,#526cf4);box-shadow:0 7px 22px rgba(40,160,230,.22)}
-.status{display:flex;align-items:center;gap:9px;color:var(--green);font-size:13px;font-weight:750;border:1px solid rgba(25,214,160,.25);background:rgba(25,214,160,.07);padding:9px 13px;border-radius:30px;white-space:nowrap}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(25,214,160,.12)}
-main{width:min(1500px,92%);margin:24px auto 70px}
-.hero{position:relative;overflow:hidden;display:grid;grid-template-columns:1.35fr .85fr;gap:38px;align-items:center;padding:48px 3.2%;min-height:390px;border:1px solid rgba(18,190,225,.35);border-radius:25px;background:linear-gradient(115deg,rgba(9,25,43,.97),rgba(9,20,37,.96));box-shadow:var(--shadow)}
-.hero:after{content:"";position:absolute;width:420px;height:420px;right:15%;top:-300px;background:rgba(20,198,225,.15);filter:blur(80px);border-radius:50%;pointer-events:none}
-.eyebrow{display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border-radius:30px;border:1px solid rgba(25,211,230,.3);background:rgba(16,190,214,.08);color:var(--cyan);font-size:13px;font-weight:750}
-.hero h1{font-size:clamp(36px,4.1vw,61px);line-height:1.08;letter-spacing:-2.5px;margin:22px 0 18px;max-width:850px}
-.gradient{background:linear-gradient(95deg,#20d4e5,#14bfae,#6680ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{max-width:790px;color:var(--muted);font-size:17px;line-height:1.8;margin:0}
-.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:27px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 18px;border-radius:13px;font-weight:750;font-size:14px;border:1px solid rgba(130,170,220,.15);background:#10213a;transition:transform .25s,box-shadow .25s,border .25s}
-.btn:hover{transform:translateY(-3px);border-color:rgba(30,210,230,.5);box-shadow:0 12px 25px rgba(0,0,0,.22)}
-.btn.primary{background:linear-gradient(110deg,#0bbbd4,#5868f2);border:0;box-shadow:0 12px 28px rgba(20,165,220,.22)}
-.telemetry{position:relative;z-index:1;padding:22px;border:1px solid rgba(16,190,225,.25);border-radius:22px;background:rgba(3,11,22,.58);min-height:250px}
-.telemetry-head{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;font-weight:800;letter-spacing:1.3px}
-.telemetry-head strong{color:var(--green);letter-spacing:0}
-.pulse{height:90px;display:flex;align-items:center;margin:5px 0 12px}
-.pulse svg{width:100%;height:75px;overflow:visible}
-.pulse path{fill:none;stroke:var(--cyan);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 7px rgba(25,211,230,.65));stroke-dasharray:600;stroke-dashoffset:600;animation:draw 2.4s ease forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-.telemetry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.telemetry-stat{padding:12px 8px;text-align:center;background:rgba(255,255,255,.035);border:1px solid rgba(140,170,210,.12);border-radius:12px}
-.telemetry-stat b{display:block;color:var(--cyan);font-size:20px}
-.telemetry-stat span{font-size:11px;color:var(--muted)}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:22px 0 28px}
-.metric,.feature,.workflow,.about-card{border:1px solid rgba(140,170,210,.14);background:linear-gradient(145deg,rgba(12,26,45,.96),rgba(9,20,36,.96));border-radius:21px;box-shadow:0 12px 30px rgba(0,0,0,.13);transition:transform .3s,border-color .3s}
-.metric{padding:20px 21px}
-.metric:hover,.feature:hover,.workflow:hover,.about-card:hover{transform:translateY(-5px);border-color:rgba(25,211,230,.35)}
-.metric-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;font-weight:650}
-.metric-icon{width:39px;height:39px;border-radius:12px;display:grid;place-items:center;background:rgba(19,194,215,.12);font-size:18px}
-.metric h2{font-size:32px;letter-spacing:-1px;margin:9px 0 0}
-.metric p{font-size:12px;color:#71869f;margin:2px 0 0}
-.section{margin-top:42px;scroll-margin-top:100px}
-.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:18px}
-.kicker{font-size:11px;color:var(--cyan);font-weight:850;letter-spacing:1.5px;text-transform:uppercase}
-.section h2{font-size:clamp(25px,3vw,34px);letter-spacing:-1px;margin:5px 0 0}
-.section-intro{color:var(--muted);max-width:680px;font-size:14px;margin:8px 0 0}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.feature{padding:22px}
-.feature-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(22,195,220,.12);font-size:21px;margin-bottom:14px}
-.feature h3,.workflow h3{margin:0 0 7px;font-size:17px}
-.feature p,.workflow p{margin:0;color:var(--muted);font-size:13px;line-height:1.75}
-.workflow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.workflow{padding:22px;position:relative;overflow:hidden}
-.workflow:after{content:"";position:absolute;right:-38px;top:-48px;width:110px;height:110px;border-radius:50%;background:rgba(30,190,220,.08);filter:blur(4px)}
-.tag{display:inline-block;margin-bottom:13px;padding:5px 9px;border-radius:30px;font-size:10px;font-weight:850;letter-spacing:.8px;color:var(--cyan);background:rgba(15,190,215,.09);border:1px solid rgba(15,190,215,.22)}
-.workflow .num{float:right;color:#536a84;font-size:12px;font-weight:850}
-.workflow a{display:inline-block;margin-top:15px;color:var(--cyan);font-size:12px;font-weight:800}
-.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
-.step{padding:18px;border-left:2px solid var(--cyan);background:rgba(13,29,49,.75);border-radius:0 15px 15px 0}
-.step b{display:block;color:var(--cyan);font-size:12px;margin-bottom:6px}
-.step span{font-size:13px;color:#dbe7f5;font-weight:700}
-.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
-.about-card{padding:24px}
-.about-card p{color:var(--muted);font-size:14px;line-height:1.8;margin:8px 0 0}
-.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.stack span{font-size:11px;padding:7px 10px;border-radius:9px;color:#c8d9ed;background:rgba(255,255,255,.05);border:1px solid rgba(140,170,210,.12)}
-footer{border-top:1px solid rgba(140,170,210,.12);padding:25px 4%;color:#72869e;text-align:center;font-size:12px}
-footer strong{color:#dceafa}
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-@media(max-width:1050px){
-.topbar{flex-wrap:wrap}
-.brand{min-width:0}
-nav{order:3;width:100%;justify-content:center;overflow:auto}
-.hero{grid-template-columns:1fr}
-.telemetry{max-width:600px}
-.metrics{grid-template-columns:repeat(2,1fr)}
-.features,.workflow-grid{grid-template-columns:repeat(2,1fr)}
+:root[data-theme="dark"] {
+  --bg: #0b0f14;
+  --bg-elev: #0f151c;
+  --surface: rgba(18, 25, 34, 0.80);
+  --surface-solid: #121922;
+  --surface-input: rgba(9, 13, 18, 0.85);
+  --border: rgba(180, 200, 220, 0.09);
+  --border-glow: rgba(94, 183, 178, 0.40);
+  --p: #5eb7b2;
+  --p2: #7fa6d6;
+  --ok: #6fbf9a;
+  --warn: #d4a861;
+  --err: #d9726b;
+  --ink: #e6edf3;
+  --mute: #8b9bab;
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  --blob-op: 0.14;
 }
-@media(max-width:650px){
-.topbar{padding:12px 4%}
-.status{font-size:11px;padding:8px}
-.brand-name{font-size:17px}
-nav{justify-content:flex-start}
-nav a{padding:8px 11px;font-size:12px;white-space:nowrap}
-main{width:92%;margin-top:15px}
-.hero{padding:28px 22px;gap:25px}
-.hero h1{letter-spacing:-1.5px}
-.hero p{font-size:14px}
-.actions .btn{width:100%}
-.metrics{grid-template-columns:repeat(2,1fr);gap:10px}
-.metric{padding:15px}
-.metric h2{font-size:26px}
-.features,.workflow-grid,.how-grid,.about-grid{grid-template-columns:1fr}
-.section-head{align-items:start;flex-direction:column}
-.telemetry-grid{gap:6px}
-.telemetry-stat b{font-size:17px}
+
+:root[data-theme="light"] {
+  --bg: #f6f8fa;
+  --bg-elev: #eef2f6;
+  --surface: rgba(255, 255, 255, 0.90);
+  --surface-solid: #ffffff;
+  --surface-input: #ffffff;
+  --border: rgba(30, 45, 60, 0.10);
+  --border-glow: rgba(60, 140, 136, 0.40);
+  --p: #3c8f8a;
+  --p2: #4d7fb8;
+  --ok: #3b8f6d;
+  --warn: #a87a2c;
+  --err: #b8524b;
+  --ink: #1b2430;
+  --mute: #5f6e7d;
+  --shadow: 0 20px 50px rgba(30, 50, 70, 0.08);
+  --blob-op: 0.30;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 16px/1.65 'Manrope', 'Cairo', system-ui, sans-serif;
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+h1, h2, h3, h4 { line-height: 1.15; letter-spacing: -0.02em; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--p); outline-offset: 3px; }
+
+.blob {
+  position: fixed;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: var(--blob-op);
+  pointer-events: none;
+  animation: floatBlob 22s ease-in-out infinite alternate;
+}
+@keyframes floatBlob {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, -30px) scale(1.05); }
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 5vw;
+  background: var(--surface);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 17px;
+  margin-right: auto;
+  letter-spacing: 0.02em;
+}
+.brand i {
+  font-style: normal;
+  font-size: 13px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(135deg, var(--p), var(--p2));
+}
+.brand small { color: var(--mute); font-weight: 500; font-size: 13px; }
+nav > a:not(.btn), .dd > button {
+  color: var(--mute);
+  font: 600 14px 'Manrope', sans-serif;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+nav > a:not(.btn):hover, .dd:hover > button {
+  color: var(--ink);
+  background: rgba(94, 183, 178, 0.08);
+}
+.dd { position: relative; }
+.dd div {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 280px;
+  padding: 8px;
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.dd:hover div, .dd:focus-within div { display: block; }
+.dd div a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.15s;
+}
+.dd div a small { display: block; color: var(--mute); font-weight: 400; font-size: 12px; }
+.dd div a:hover { background: rgba(94, 183, 178, 0.12); }
+
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-input);
+  color: var(--ink);
+  font: 700 12.5px 'Manrope', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.theme-btn:hover { border-color: var(--p); transform: translateY(-1px); }
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  background: var(--surface-input);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.status-pill:hover { border-color: var(--p); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--warn); }
+.status-pill.on {
+  background: rgba(111, 191, 154, 0.12);
+  border-color: rgba(111, 191, 154, 0.35);
+  color: var(--ok);
+}
+.status-pill.on .dot {
+  background: var(--ok);
+  box-shadow: 0 0 10px var(--ok);
+  animation: pulseDot 2.2s infinite;
+}
+.status-pill.off {
+  background: rgba(217, 114, 107, 0.12);
+  border-color: rgba(217, 114, 107, 0.35);
+  color: var(--err);
+}
+.status-pill.off .dot { background: var(--err); }
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.6; }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 1px solid var(--p);
+  font: 700 14.5px 'Manrope', 'Cairo', sans-serif;
+  color: #fff;
+  background: linear-gradient(135deg, var(--p), #4a9e99);
+  padding: 12px 22px;
+  border-radius: 11px;
+  transition: all 0.22s;
+}
+.btn:hover {
+  box-shadow: 0 10px 26px rgba(94, 183, 178, 0.28);
+  transform: translateY(-1px);
+}
+.btn.o {
+  background: var(--surface-input);
+  color: var(--ink);
+  border-color: var(--border);
+}
+.btn.o:hover {
+  border-color: var(--p);
+  background: rgba(94, 183, 178, 0.10);
+}
+.btn.sm { padding: 8px 15px; font-size: 13px; }
+
+section { max-width: 1160px; margin: 0 auto; padding: 84px 5vw 0; }
+.hero {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 48px;
+  align-items: center;
+  padding-top: 64px;
+}
+h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 800; }
+.lead { color: var(--mute); font-size: 17.5px; max-width: 54ch; margin: 20px 0 30px; }
+.hero-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.mock {
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+.mock h4 { font-size: 13px; color: var(--mute); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface-input);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.av {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(94, 183, 178, 0.15);
+  border: 1px solid rgba(94, 183, 178, 0.35);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: var(--p);
+}
+.sc { margin-left: auto; font-weight: 800; font-size: 18px; color: var(--ok); }
+.chip {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 99px;
+  background: rgba(127, 166, 214, 0.14);
+  color: var(--p2);
+  border: 1px solid rgba(127, 166, 214, 0.28);
+}
+.chip.g {
+  background: rgba(111, 191, 154, 0.14);
+  color: var(--ok);
+  border-color: rgba(111, 191, 154, 0.3);
+}
+.bar {
+  height: 7px;
+  border-radius: 9px;
+  background: rgba(94, 183, 178, 0.12);
+  margin: 7px 0 15px;
+  overflow: hidden;
+}
+.bar i {
+  display: block;
+  height: 100%;
+  width: var(--w);
+  background: linear-gradient(90deg, var(--p), var(--p2));
+}
+
+.stack {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 44px 5vw 0;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.stack span {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 8px 18px;
+}
+.stack p { width: 100%; text-align: center; color: var(--mute); font-size: 13.5px; margin-bottom: 4px; }
+
+h2 { font-size: clamp(26px, 3.5vw, 38px); font-weight: 800; }
+.sub { color: var(--mute); max-width: 62ch; margin: 10px 0 30px; }
+
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.tabs button {
+  cursor: pointer;
+  font: 600 14px 'Manrope', sans-serif;
+  padding: 10px 18px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: var(--surface-input);
+  color: var(--mute);
+  transition: all 0.2s;
+}
+.tabs button:hover { color: var(--ink); border-color: var(--p); }
+.tabs button.on {
+  background: linear-gradient(135deg, var(--p), #4a9e99);
+  border-color: var(--p);
+  color: #fff;
+}
+
+.offer {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 32px;
+  padding: 32px;
+  border-radius: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
+}
+.offer h3 { font-size: 24px; margin-bottom: 10px; }
+.offer p { color: var(--mute); margin-bottom: 18px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.steps { display: grid; gap: 9px; align-content: start; }
+.steps div {
+  background: var(--surface-input);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 11px 15px;
+  font-weight: 600;
+  font-size: 13.5px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+.card {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.15s;
+}
+.card:hover {
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow);
+}
+.card b {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(94, 183, 178, 0.13);
+  color: var(--p);
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+.card h4 { font-size: 17px; margin-bottom: 6px; }
+.card p { color: var(--mute); font-size: 14px; }
+
+.portal {
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 28px;
+  background: var(--surface);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+.chat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.quick-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.quick-chips button {
+  font: 600 12.5px 'Manrope', 'Cairo', sans-serif;
+  padding: 6px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: var(--surface-input);
+  color: var(--mute);
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.quick-chips button:hover {
+  color: var(--ink);
+  border-color: var(--p);
+  background: rgba(94, 183, 178, 0.10);
+}
+#log {
+  height: 360px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+.m {
+  max-width: 82%;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 15px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+.m.u {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--p), #4a9e99);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.m.b {
+  align-self: flex-start;
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  border-bottom-left-radius: 4px;
+}
+.m.b strong { color: var(--p); }
+.m.err {
+  background: rgba(217, 114, 107, 0.12);
+  border-color: rgba(217, 114, 107, 0.35);
+  color: var(--err);
+}
+.err-help {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(217, 114, 107, 0.3);
+  font-size: 13px;
+  color: var(--mute);
+}
+#cf { display: flex; gap: 10px; }
+#ci {
+  flex: 1;
+  background: var(--surface-input);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px 16px;
+  font: inherit;
+  color: var(--ink);
+}
+#ci:focus { border-color: var(--p); outline: none; }
+
+.custom-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  background: var(--bg-elev);
+  padding: 26px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+}
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field.full { grid-column: 1 / -1; }
+.field label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  justify-content: space-between;
+}
+.field label span { color: var(--p); font-size: 12px; }
+.field input, .field select, .field textarea {
+  background: var(--surface-input);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 14.5px;
+  color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--p);
+  box-shadow: 0 0 0 3px rgba(94, 183, 178, 0.15);
+  outline: none;
+}
+.dropzone {
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+  background: var(--surface-input);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.dropzone:hover, .dropzone.drag {
+  border-color: var(--p);
+  background: rgba(94, 183, 178, 0.05);
+}
+.dropzone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.dropzone-title { font-weight: 700; font-size: 14.5px; margin-bottom: 4px; }
+.dropzone-sub { font-size: 12.5px; color: var(--mute); }
+.file-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  background: rgba(111, 191, 154, 0.15);
+  color: var(--ok);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.form-footer {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+#viz { width: 100%; height: auto; display: block; }
+#viz text { fill: var(--ink); font: 700 13px 'Manrope', sans-serif; }
+#viz .s { fill: var(--mute); font-weight: 500; font-size: 11px; }
+#viz .n rect { fill: var(--surface-solid); stroke-width: 1.5; }
+#viz .e { fill: none; stroke: var(--border); stroke-width: 2; stroke-dasharray: 5 5; }
+
+.cta {
+  margin: 90px 5vw 0;
+  padding: 56px 5vw;
+  border-radius: 26px;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(125deg, #2c4a5e, var(--p) 60%, #4d7fb8);
+  box-shadow: 0 20px 50px rgba(30, 60, 80, 0.2);
+}
+.cta h2 { margin: 0 auto 22px; max-width: 22ch; color: #fff; }
+.cta .btn { background: #fff; color: #1b2430; border-color: #fff; margin: 0 6px 8px; }
+footer {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 48px 5vw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  color: var(--mute);
+  font-size: 14px;
+}
+footer b { margin-right: auto; color: var(--ink); }
+
+.reveal { opacity: 1; transform: none; transition: opacity 0.6s, transform 0.6s; }
+@media (max-width: 860px) {
+  .hero, .offer, .custom-form-grid { grid-template-columns: 1fr; }
+  nav > a:not(.btn), .dd { display: none; }
+  .m { max-width: 92%; }
 }
 </style>
 </head>
 <body>
-<header class="topbar">
-  <a class="brand" href="#home" aria-label="NEXORA AI home">
-    <div class="brand-mark">N</div>
-    <div>
-      <div class="brand-name">NEXORA <span>AI</span></div>
-      <div class="brand-sub">HR Automation & Intelligence Suite</div>
-    </div>
-  </a>
-  <nav aria-label="Main navigation">
-    <a class="active" href="#home">Home</a>
-    <a href="#overview">Overview</a>
-    <a href="#workflows">Workflows</a>
-    <a href="#how">How It Works</a>
-    <a href="#about">About</a>
-  </nav>
-  <div class="status"><i class="dot"></i> n8n Self-Hosted</div>
-</header>
-<main>
-<section class="hero" id="home">
+<div class="blob" style="width:520px;height:520px;background:#5eb7b2;top:-160px;right:-120px"></div>
+<div class="blob" style="width:440px;height:440px;background:#7fa6d6;top:440px;left:-160px"></div>
+
+<nav>
+  <a class="brand" href="#"><i>NX</i>NEXORA AI <small>Recruitment &amp; HR</small></a>
+  <div class="dd"><button aria-haspopup="true">Workflows ▾</button><div id="menu"></div></div>
+  <a href="#how">Architecture</a>
+  <a href="#pipeline">Pipeline</a>
+  <a href="#portal">Live Portal</a>
+  <button id="statusBtn" class="status-pill" title="Click to re-check n8n server connection">
+    <span class="dot"></span>
+    <span id="statusTxt">Checking…</span>
+  </button>
+  <button id="themeToggle" class="theme-btn" title="Switch Dark / Light Mode" aria-label="Toggle Theme">
+    <span id="themeIcon">☀️</span> <span id="themeLabel">Light</span>
+  </button>
+  <a class="btn sm" href="#portal" data-go="apply">Apply Now</a>
+</nav>
+
+<section class="hero">
   <div>
-    <span class="eyebrow">✦ n8n + AI Automation + HR Operations</span>
-    <h1>Smarter Hiring.<br><span class="gradient">Seamless HR Automation.</span></h1>
-    <p>NEXORA AI streamlines the recruitment journey with intelligent candidate intake, AI-powered CV screening, job application assistance, knowledge retrieval, and centralized error handling — all connected through automated workflows.</p>
-    <div class="actions">
-      <a class="btn primary" href="https://awoke-roster-mayflower.ngrok-free.dev/form/321f1383-ff44-47cc-aca7-211d8ebd76d8" target="_blank" rel="noopener">✦ Launch Candidate Intake</a>
-      <a class="btn" href="#workflows">▦ Explore Workflows</a>
-      <a class="btn" href="https://github.com/mohamed-m12/OMNA-People-HR-Automation" target="_blank" rel="noopener">↗ View on GitHub</a>
+    <h1>The AI recruitment platform for faster, fairer hiring.</h1>
+    <p class="lead">Applications come in, AI screens every CV with OCR, candidates receive instant multi-agent coaching, and employees get bilingual HR policy answers in English &amp; العربية. Five live n8n workflows working as one.</p>
+    <div class="hero-btns">
+      <a class="btn" href="#portal" data-go="apply">Apply for a Job</a>
+      <a class="btn o" href="#portal" data-go="coach">Get AI CV Coaching</a>
+      <a class="btn o" href="#portal" data-go="chat">Ask HR Assistant</a>
     </div>
   </div>
-  <aside class="telemetry">
-    <div class="telemetry-head"><span>NEXORA.TELEMETRY // OVERVIEW</span><strong>● WORKFLOW SUITE</strong></div>
-    <div class="pulse">
-      <svg viewBox="0 0 520 100" preserveAspectRatio="none" aria-label="Decorative activity pulse">
-        <path d="M4 53 H185 L205 53 L224 23 L245 78 L267 7 L290 88 L313 53 H516"/>
-      </svg>
-    </div>
-    <div class="telemetry-grid">
-      <div class="telemetry-stat"><b>05</b><span>Core Workflows</span></div>
-      <div class="telemetry-stat"><b>AI</b><span>Assisted Screening</span></div>
-      <div class="telemetry-stat"><b>n8n</b><span>Automation Engine</span></div>
-    </div>
-  </aside>
-</section>
-
-<section class="metrics reveal" id="overview">
-  <article class="metric"><div class="metric-top"><span>Core Workflows</span><span class="metric-icon">⚙️</span></div><h2>05</h2><p>Connected automation workflows</p></article>
-  <article class="metric"><div class="metric-top"><span>Candidate Intake</span><span class="metric-icon">📨</span></div><h2>Automated</h2><p>Form-based application collection</p></article>
-  <article class="metric"><div class="metric-top"><span>AI Screening</span><span class="metric-icon">🧠</span></div><h2>Enabled</h2><p>AI-assisted CV analysis workflow</p></article>
-  <article class="metric"><div class="metric-top"><span>Workflow Support</span><span class="metric-icon">🛡️</span></div><h2>Centralized</h2><p>Dedicated error handling flow</p></article>
-</section>
-
-<section class="section reveal">
-  <div class="section-head">
-    <div>
-      <div class="kicker">Platform capabilities</div>
-      <h2>Everything in one HR automation suite</h2>
-      <p class="section-intro">A connected set of tools designed to reduce repetitive recruitment tasks and make candidate processing more organized.</p>
-    </div>
-  </div>
-  <div class="features">
-    <article class="feature"><div class="feature-icon">📥</div><h3>Smart Candidate Intake</h3><p>Collect applicant details through a structured form and route submissions into the recruitment workflow.</p></article>
-    <article class="feature"><div class="feature-icon">🧠</div><h3>AI CV Screening</h3><p>Use AI-assisted analysis to extract and evaluate candidate information as part of the screening process.</p></article>
-    <article class="feature"><div class="feature-icon">✨</div><h3>Application Coach</h3><p>Help candidates improve their job applications with an intelligent, guided application experience.</p></article>
-    <article class="feature"><div class="feature-icon">🔎</div><h3>RAG Knowledge Assistant</h3><p>Retrieve relevant information from a knowledge base to support contextual answers.</p></article>
-    <article class="feature"><div class="feature-icon">🛡️</div><h3>Error Monitoring</h3><p>Route workflow failures into a dedicated error-handling process for easier troubleshooting.</p></article>
-    <article class="feature"><div class="feature-icon">📊</div><h3>Connected Operations</h3><p>Bring workflow automation and connected services together in a single, clear project overview.</p></article>
+  <div class="mock reveal" aria-label="Example of an AI screening result">
+    <h4>Live AI Screening Telemetry</h4>
+    <div class="row"><span class="av">MA</span><div><b>Candidate Evaluation</b><br><small style="color:var(--mute)">AI Automation Engineer</small></div><span class="sc">92%</span></div>
+    <small style="color:var(--mute)">Technical &amp; Workflow Match</small><div class="bar"><i style="--w:92%"></i></div>
+    <small style="color:var(--mute)">Experience &amp; Project Fit</small><div class="bar"><i style="--w:85%"></i></div>
+    <div class="row"><span class="chip g">Invited to Interview</span><span style="color:var(--mute);margin-left:auto;font-size:13px">Auto-email dispatched</span></div>
+    <div class="row"><span class="chip">Borderline Cases</span><span style="color:var(--mute);margin-left:auto;font-size:13px">Routed to HR Review</span></div>
   </div>
 </section>
 
-<section class="section reveal" id="workflows">
-  <div class="section-head">
-    <div>
-      <div class="kicker">Automation architecture</div>
-      <h2>Explore the workflows</h2>
-      <p class="section-intro">Five workflow components form the NEXORA AI recruitment automation system.</p>
+<div class="stack">
+  <p>Powered by self-hosted Docker &amp; production AI stack</p>
+  <span>n8n Automation</span><span>Google Sheets</span><span>Google Drive</span><span>Gmail</span><span>Gemini 3.1 &amp; 2.5 Flash-Lite</span><span>Groq gpt-oss-120b</span>
+</div>
+
+<section id="how" class="reveal">
+  <h2>Five workflows, one hiring pipeline</h2>
+  <p class="sub">Inspect each workflow below to view its trigger, AI models, and internal node chain—or download the sanitized JSON directly.</p>
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <div class="offer" id="offer"></div>
+</section>
+
+<section class="reveal">
+  <h2>Specialist AI agents behind the scenes</h2>
+  <p class="sub">Six autonomous LLM steps operating across your recruitment and policy workflows.</p>
+  <div class="grid" id="agents"></div>
+</section>
+
+<section id="pipeline" class="reveal">
+  <h2>How the workflows connect</h2>
+  <p class="sub">Google Sheets acts as the central state ledger, while the Global Error Handler monitors every pipeline stage.</p>
+  <div class="portal"><svg id="viz" viewBox="0 0 900 380" role="img" aria-label="Pipeline diagram of the five workflows"></svg></div>
+</section>
+
+<section id="portal" class="reveal">
+  <h2>Try the Live Recruitment Portal</h2>
+  <p class="sub">Interact directly with our RAG Policy Assistant, submit an application, or run the AI Career Coach.</p>
+  <div class="portal">
+    <div class="tabs" id="ptabs" role="tablist">
+      <button class="on" data-t="chat">💬 Ask HR Policy Assistant</button>
+      <button data-t="apply">📄 Apply for a Job</button>
+      <button data-t="coach">🎯 Get AI CV Coaching</button>
     </div>
-  </div>
-  <div class="workflow-grid">
-    <article class="workflow"><span class="num">01 / 05</span><span class="tag">CANDIDATE PIPELINE</span><h3>Intake Workflow</h3><p>Receives candidate submissions through the intake form and starts the recruitment data flow.</p><a href="https://awoke-roster-mayflower.ngrok-free.dev/form/321f1383-ff44-47cc-aca7-211d8ebd76d8" target="_blank" rel="noopener">Open intake form ↗</a></article>
-    <article class="workflow"><span class="num">02 / 05</span><span class="tag">AI SCREENING</span><h3>AI Scan</h3><p>Processes candidate information through the AI screening workflow to support CV review.</p><a href="#how">View process ↓</a></article>
-    <article class="workflow"><span class="num">03 / 05</span><span class="tag">KNOWLEDGE RETRIEVAL</span><h3>RAG Assistant</h3><p>Connects retrieval-based context with the assistant for knowledge-grounded responses.</p><a href="#about">Technology details ↓</a></article>
-    <article class="workflow"><span class="num">04 / 05</span><span class="tag">CANDIDATE EXPERIENCE</span><h3>SmartJob Application Coach</h3><p>Provides an AI-assisted experience to guide candidates through improving their applications.</p><a href="#how">View process ↓</a></article>
-    <article class="workflow"><span class="num">05 / 05</span><span class="tag">RELIABILITY</span><h3>Error Handling</h3><p>Centralizes workflow error handling to make failures easier to detect and investigate.</p><a href="#about">Technology details ↓</a></article>
+
+    <div id="p-chat">
+      <div class="chat-toolbar">
+        <div class="quick-chips">
+          <button type="button" data-q="How many annual leave days do I get?">Annual leave days?</button>
+          <button type="button" data-q="What are the working hours and remote work policy?">Remote work policy?</button>
+          <button type="button" data-q="ما هي سياسة الإجازات السنوية والمرضية في الشركة؟">سياسة الإجازات بالعربية؟</button>
+        </div>
+        <button type="button" id="clearChat" class="btn o sm">Clear Chat</button>
+      </div>
+      <div id="log" aria-live="polite"></div>
+      <form id="cf">
+        <input id="ci" dir="auto" placeholder="Ask about leave, benefits, policies… (English or العربية)" aria-label="Message" autocomplete="off" required>
+        <button class="btn" type="submit" id="sendBtn">Send</button>
+      </form>
+    </div>
+
+    <div id="p-apply" hidden>
+      <form id="customApplyForm" class="custom-form-grid">
+        <div class="field">
+          <label>Full Name <span>*Required</span></label>
+          <input type="text" id="apName" placeholder="e.g., Mohamed Mefreg" required>
+        </div>
+        <div class="field">
+          <label>Email Address <span>*Required</span></label>
+          <input type="email" id="apEmail" placeholder="name@example.com" required>
+        </div>
+        <div class="field">
+          <label>Target Position <span>*Required</span></label>
+          <select id="apRole" required>
+            <option value="AI Automation Engineer">AI Automation Engineer</option>
+            <option value="Backend / Systems Integration Engineer">Backend / Systems Integration Engineer</option>
+            <option value="Data Scientist / ML Engineer">Data Scientist / ML Engineer</option>
+            <option value="Senior Accountant">Senior Accountant</option>
+            <option value="HR Operations Specialist">HR Operations Specialist</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Phone / WhatsApp</label>
+          <input type="tel" id="apPhone" placeholder="+20 100 000 0000">
+        </div>
+        <div class="field full">
+          <label>Upload Resume / CV (PDF) <span>*Required</span></label>
+          <div class="dropzone" id="apDrop">
+            <input type="file" id="apFile" accept=".pdf" required>
+            <div class="dropzone-title">📄 Drag &amp; drop your CV (PDF) here, or click to browse</div>
+            <div class="dropzone-sub">Automatically uploaded to Google Drive &amp; scanned by Gemini OCR</div>
+            <div id="apFileBadge" class="file-badge" style="display:none"></div>
+          </div>
+        </div>
+        <div class="field full">
+          <label>Why do you want to join NEXORA AI? <span>*Required</span></label>
+          <textarea id="apWhy" rows="3" placeholder="Briefly share your key strengths, automation experience, and career goals…" required></textarea>
+        </div>
+        <div class="form-footer">
+          <span style="font-size:13px;color:var(--mute)">🔒 Connected to live n8n Candidate Intake workflow</span>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button type="submit" class="btn">Submit Application ↗</button>
+            <a id="directApplyBtn" target="_blank" rel="noopener" class="btn o">Open Direct n8n Form</a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="p-coach" hidden>
+      <form id="customCoachForm" class="custom-form-grid">
+        <div class="field">
+          <label>Your Email (to receive the AI Report) <span>*Required</span></label>
+          <input type="email" id="coEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label>Target Role Title <span>*Required</span></label>
+          <input type="text" id="coRole" placeholder="e.g., AI Automation & Systems Integration Engineer" required>
+        </div>
+        <div class="field full">
+          <label>Upload Your Current CV (PDF) <span>*Required</span></label>
+          <div class="dropzone" id="coDrop">
+            <input type="file" id="coFile" accept=".pdf" required>
+            <div class="dropzone-title">🎯 Drop your PDF Resume here for 3-Agent Analysis</div>
+            <div class="dropzone-sub">Analyzed by CV Matcher, Cover Letter Writer &amp; Interview Coach</div>
+            <div id="coFileBadge" class="file-badge" style="display:none"></div>
+          </div>
+        </div>
+        <div class="field full">
+          <label style="align-items:center">
+            <span>Target Job Description <span>*Required</span></span>
+            <button type="button" id="fillSampleJD" class="btn o sm" style="padding:4px 10px;font-size:11.5px">✨ Auto-Fill Sample Job Description</button>
+          </label>
+          <textarea id="coJD" rows="5" placeholder="Paste the full job description here so the AI can score your CV gaps and tailor your cover letter…" required></textarea>
+        </div>
+        <div class="form-footer">
+          <span style="font-size:13px;color:var(--mute)">⚡ Generates ATS Match Score + Custom Cover Letter + Interview Prep</span>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button type="submit" class="btn">Generate AI Coaching Report ↗</button>
+            <a id="directCoachBtn" target="_blank" rel="noopener" class="btn o">Open Direct n8n Form</a>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
 
-<section class="section reveal" id="how">
-  <div class="section-head">
-    <div>
-      <div class="kicker">The process</div>
-      <h2>How NEXORA AI works</h2>
-      <p class="section-intro">A high-level view of how the automation suite supports the recruitment journey.</p>
-    </div>
-  </div>
-  <div class="how-grid">
-    <div class="step"><b>STEP 01</b><span>Candidate submits application</span></div>
-    <div class="step"><b>STEP 02</b><span>Workflow processes candidate data</span></div>
-    <div class="step"><b>STEP 03</b><span>AI tools assist screening and guidance</span></div>
-    <div class="step"><b>STEP 04</b><span>Data and workflow outcomes are routed</span></div>
-  </div>
-</section>
+<div class="cta reveal">
+  <h2>Experience autonomous HR workflows in action.</h2>
+  <a class="btn" href="#portal" data-go="apply">Apply for a Job</a>
+  <a class="btn" href="#portal" data-go="coach">Get CV Coaching</a>
+</div>
 
-<section class="section reveal" id="about">
-  <div class="section-head">
-    <div><div class="kicker">Built with automation</div><h2>About the platform</h2></div>
-  </div>
-  <div class="about-grid">
-    <article class="about-card">
-      <h3>NEXORA AI — HR Automation Suite</h3>
-      <p>NEXORA AI is an HR automation project built around n8n workflows and AI-assisted processes. Its goal is to simplify repetitive recruitment operations, organize candidate information, and connect multiple automation components into one coherent system.</p>
-      <div class="stack"><span>n8n</span><span>AI Integration</span><span>Google Sheets</span><span>RAG</span><span>Workflow Automation</span></div>
-    </article>
-    <article class="about-card">
-      <h3>Project resources</h3>
-      <p>Explore the public project repository or try the candidate intake form. The intake endpoint currently uses an ngrok tunnel, so it is available only while the local n8n service and tunnel are running.</p>
-      <div class="actions"><a class="btn primary" href="https://github.com/mohamed-m12/OMNA-People-HR-Automation" target="_blank" rel="noopener">GitHub Repository ↗</a></div>
-    </article>
-  </div>
-</section>
-</main>
-<footer>© 2026 <strong>NEXORA AI</strong> · HR Automation & Intelligence Suite</footer>
+<footer>
+  <b>NEXORA AI</b>
+  <span>Engineered with n8n, Docker, Google Workspace, Gemini &amp; Groq</span>
+</footer>
+
 <script>
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
+const CONFIG = {
+  n8nBase: "https://awoke-roster-mayflower.ngrok-free.dev",
+  chat: "/webhook/ac1e95ba-5d8e-4ea9-8da4-84d01ce45f79/chat",
+  applyForm: "/form/321f1383-ff44-47cc-aca7-211d8ebd76d8",
+  coachForm: "/form/738eb6ba-3234-4951-8cd1-11ba279502b3"
+};
+
+const HEADERS = {
+  "Content-Type": "application/json",
+  "ngrok-skip-browser-warning": "1"
+};
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+const rootEl = document.documentElement;
+const savedTheme = localStorage.getItem("nx_theme") || "dark";
+function applyTheme(t) {
+  rootEl.setAttribute("data-theme", t);
+  localStorage.setItem("nx_theme", t);
+  $("#themeIcon").textContent = t === "dark" ? "☀️" : "🌙";
+  $("#themeLabel").textContent = t === "dark" ? "Light" : "Dark";
+}
+applyTheme(savedTheme);
+$("#themeToggle").addEventListener("click", () => {
+  const next = rootEl.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  applyTheme(next);
+});
+
+const WF = [
+  {
+    file: "intake.json", name: "Candidate Intake", nodes: 11, trig: "n8n Form Trigger", ai: "Rule-based + JS Validation",
+    d: "Candidates apply with a PDF CV. The workflow validates fields, checks Google Sheets for duplicate applications, stores the CV in Google Drive, and logs the record.",
+    s: ["On form submission", "Code in JavaScript → If (validation)", "Get row(s) in sheet (duplicate check)", "Upload file (Google Drive)", "Append row in sheet", "Form2 (confirmation page)"]
+  },
+  {
+    file: "AI scan.json", name: "AI Resume Screening", nodes: 30, trig: "Hourly Schedule / Manual", ai: "Gemini 3.1 & 2.5 Flash-Lite + Groq",
+    d: "Picks up new applications, reads each CV (with OCR fallback for scanned PDFs), extracts structured candidate data, scores against job criteria, and emails candidates.",
+    s: ["Get New Applications → Loop Over Items", "Extract from File / OCR Scanned CV", "Extract Candidate Profile", "Evaluation Schema (Auto-fix)", "Validate Evaluation → Switch", "Invite / Brief HR / Flag Borderline", "Update row in sheet"]
+  },
+  {
+    file: "SmartJob Application Coach.json", name: "SmartJob Application Coach", nodes: 14, trig: "n8n Form Trigger", ai: "Gemini 3.1 + Groq (3 Specialist Agents)",
+    d: "Candidates upload a CV and target job description. An orchestrator agent invokes three specialist tools (Matcher, Cover Letter, Interview Coach) and emails a full report.",
+    s: ["Job application form", "Read CV (Gemini)", "Career Coach Orchestrator", "CV Matcher Tool", "Cover Letter Tool", "Interview Coach Tool", "Markdown → Send Gmail"]
+  },
+  {
+    file: "Rag.json", name: "HR Policy RAG Assistant", nodes: 11, trig: "Chat Webhook + Document Loader", ai: "Gemini Flash-Lite + Gemini Embeddings",
+    d: "HR policy documents are chunked, embedded, and indexed in an in-memory vector store. The bilingual chat agent answers questions in English and Arabic with conversational memory.",
+    s: ["Upload policy files", "Recursive Character Text Splitter", "Default Data Loader", "Simple Vector Store (hr_policies)", "When chat message received", "AI Agent + Window Buffer Memory"]
+  },
+  {
+    file: "Error Handling.json", name: "Global Error Handler", nodes: 18, trig: "Error Trigger + Scheduled Audits", ai: "Automated Classification & Throttling",
+    d: "Captures workflow failures across the pipeline, throttles duplicate alerts, detects stuck candidate applications, logs incidents in Sheets, and dispatches Gmail digests.",
+    s: ["Error Trigger → Classify Error", "Check Alert Throttle", "Find Stuck Applications", "Build HTML Digest", "Send Alert (Gmail)", "Append Error Log in Sheet"]
+  }
+];
+
+const AG = [
+  ["Candidate Profile Extractor", "Converts raw PDF resume text or OCR output into structured skills, experience, and education JSON."],
+  ["Evaluation Scorer", "Scores candidates objectively against role criteria using a self-correcting structured output schema."],
+  ["CV Matcher Agent", "Compares candidate CVs against target job descriptions to highlight strengths and missing keywords."],
+  ["Cover Letter Writer", "Generates a tailored, role-specific cover letter aligned with the candidate's verified experience."],
+  ["Interview Coach Agent", "Prepares targeted technical and behavioral interview questions with suggested answer frameworks."],
+  ["Bilingual HR RAG Agent", "Retrieves exact clauses from company policy docs and responds naturally in English or Arabic."]
+];
+
+$("#menu").innerHTML = WF.map((w, i) => `<a href="#how" data-w="${i}">${w.name}<small>${w.trig}</small></a>`).join("");
+$("#agents").innerHTML = AG.map((a, i) => `<div class="card tilt"><b>0${i + 1}</b><h4>${a[0]}</h4><p>${a[1]}</p></div>`).join("");
+$("#tabs").innerHTML = WF.map((w, i) => `<button data-w="${i}" role="tab">${w.name}</button>`).join("");
+
+function showWorkflow(i) {
+  const w = WF[i];
+  $$("#tabs button").forEach((b, k) => b.classList.toggle("on", k === i));
+  $("#offer").innerHTML = `
+    <div>
+      <h3>${w.name}</h3>
+      <p>${w.d}</p>
+      <div class="meta">
+        <span class="chip">${w.nodes} Nodes</span>
+        <span class="chip">${w.trig}</span>
+        <span class="chip g">${w.ai}</span>
+      </div>
+      <a class="btn o sm" href="./${encodeURIComponent(w.file)}" download="${w.file}">⬇ Download ${w.file}</a>
+    </div>
+    <div class="steps">${w.s.map(x => `<div>→ ${x}</div>`).join("")}</div>`;
+}
+$$("[data-w]").forEach(b => b.addEventListener("click", () => showWorkflow(+b.dataset.w)));
+showWorkflow(0);
+
+const applyUrl = CONFIG.n8nBase + CONFIG.applyForm;
+const coachUrl = CONFIG.n8nBase + CONFIG.coachForm;
+$("#directApplyBtn").href = applyUrl;
+$("#directCoachBtn").href = coachUrl;
+
+function bindFileDrop(inputSelector, badgeSelector) {
+  const inp = $(inputSelector), badge = $(badgeSelector);
+  inp.addEventListener("change", () => {
+    if (inp.files && inp.files[0]) {
+      badge.textContent = "✓ Selected: " + inp.files[0].name;
+      badge.style.display = "inline-block";
     }
   });
-},{threshold:.12});
+}
+bindFileDrop("#apFile", "#apFileBadge");
+bindFileDrop("#coFile", "#coFileBadge");
 
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+$("#fillSampleJD").addEventListener("click", () => {
+  $("#coRole").value = "AI Automation & Systems Integration Engineer";
+  $("#coJD").value = "Role: AI Automation & Systems Integration Engineer\nResponsibilities:\n- Design, build, and maintain multi-step automated workflows in self-hosted n8n.\n- Integrate LLMs (Google Gemini, Groq, OpenAI) for RAG assistants, OCR resume screening, and AI agents.\n- Connect REST APIs, webhooks, Google Workspace (Sheets, Drive, Gmail), and PostgreSQL/Supabase.\n- Manage Docker containers and implement global error-handling pipelines.";
+});
 
-const links=[...document.querySelectorAll('nav a')];
-const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+$("#customApplyForm").addEventListener("submit", e => {
+  e.preventDefault();
+  window.open(applyUrl, "n8nApplyWindow", "width=760,height=840,resizable=yes,scrollbars=yes");
+});
+$("#customCoachForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if (navigator.clipboard && $("#coJD").value) {
+    navigator.clipboard.writeText($("#coJD").value).catch(() => {});
+  }
+  window.open(coachUrl, "n8nCoachWindow", "width=760,height=840,resizable=yes,scrollbars=yes");
+});
 
-const navObserver=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+entry.target.id));
+const sid = crypto.randomUUID ? crypto.randomUUID() : String(Date.now());
+function setServerStatus(online) {
+  const pill = $("#statusBtn");
+  const txt = $("#statusTxt");
+  pill.className = "status-pill " + (online ? "on" : "off");
+  txt.textContent = online ? "System Online" : "Tunnel Offline";
+}
+
+async function checkServerStatus() {
+  $("#statusTxt").textContent = "Pinging…";
+  try {
+    const r = await fetch(CONFIG.n8nBase + CONFIG.chat, {
+      method: "POST",
+      headers: HEADERS,
+      body: JSON.stringify({ action: "loadPreviousSession", sessionId: sid })
+    });
+    setServerStatus(r.ok || r.status < 500);
+  } catch (e) {
+    setServerStatus(false);
+  }
+}
+$("#statusBtn").addEventListener("click", checkServerStatus);
+checkServerStatus();
+
+(function() {
+  const svg = $("#viz"), NS = "http://www.w3.org/2000/svg";
+  const N = {
+    intake: [115, 75, "Candidate Intake", "Form → Drive + Sheets"],
+    sheet: [450, 190, "Google Sheets", "Central State Ledger"],
+    scan: [785, 75, "AI Screening", "Gemini + Groq → Gmail"],
+    coach: [115, 310, "Application Coach", "Orchestrator + 3 Tools"],
+    rag: [450, 325, "HR Policy RAG", "Vector Store Chat"],
+    err: [785, 310, "Error Handler", "Throttle + Digest"]
+  };
+  const col = { intake: "#5eb7b2", sheet: "#7fa6d6", scan: "#6fbf9a", coach: "#c9a0dc", rag: "#8fb8c9", err: "#d4a861" };
+  const E = [["intake", "sheet"], ["sheet", "scan"], ["scan", "err"], ["coach", "err"], ["rag", "err"]];
+  const mk = (t, a) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+  E.forEach(([a, b], i) => {
+    const [x1, y1] = N[a], [x2, y2] = N[b], mx = (x1 + x2) / 2;
+    svg.appendChild(mk("path", { id: "p" + i, class: "e", d: `M${x1} ${y1}C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}` }));
+    for (let k = 0; k < 2; k++) {
+      const c = mk("circle", { r: 5, fill: col[a] });
+      const m = mk("animateMotion", { dur: (3.2 + i * 0.35) + "s", begin: (k * 1.6) + "s", repeatCount: "indefinite" });
+      m.appendChild(mk("mpath", { href: "#p" + i }));
+      c.appendChild(m);
+      svg.appendChild(c);
     }
   });
-},{rootMargin:'-35% 0px -55% 0px'});
+  Object.entries(N).forEach(([k, [x, y, t, s]]) => {
+    const g = mk("g", { class: "n" });
+    g.appendChild(mk("rect", { x: x - 86, y: y - 32, width: 172, height: 64, rx: 14, stroke: col[k] }));
+    const a = mk("text", { x, y: y - 4, "text-anchor": "middle" }); a.textContent = t;
+    const b = mk("text", { x, y: y + 16, "text-anchor": "middle", class: "s" }); b.textContent = s;
+    g.append(a, b);
+    svg.appendChild(g);
+  });
+})();
 
-sections.forEach(s=>navObserver.observe(s));
+function switchPortalTab(t) {
+  $$("#ptabs button").forEach(x => x.classList.toggle("on", x.dataset.t === t));
+  ["chat", "apply", "coach"].forEach(k => $("#p-" + k).hidden = (k !== t));
+}
+$$("#ptabs button").forEach(b => b.onclick = () => switchPortalTab(b.dataset.t));
+$$("[data-go]").forEach(a => a.addEventListener("click", () => switchPortalTab(a.dataset.go)));
+
+const log = $("#log"), ci = $("#ci");
+
+function formatMarkdown(str) {
+  const escaped = String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+  return escaped
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .split("\n- ").join("<br>• ")
+    .split("\n").join("<br>");
+}
+
+function appendMessage(text, cls) {
+  const d = document.createElement("div");
+  d.className = "m " + cls;
+  d.dir = "auto";
+  if (cls.includes("b")) {
+    d.innerHTML = formatMarkdown(text);
+  } else {
+    d.textContent = text;
+  }
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+  return d;
+}
+
+function initGreeting() {
+  log.innerHTML = "";
+  appendMessage("Hi there! 👋 I'm the **NEXORA AI** HR assistant. Ask me anything about HR policies, annual leave, or remote work in **English** or **العربية**.", "b");
+}
+initGreeting();
+
+$("#clearChat").addEventListener("click", initGreeting);
+$$(".quick-chips button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    ci.value = btn.dataset.q;
+    $("#cf").requestSubmit();
+  });
+});
+
+async function sendChatQuery(q) {
+  let lastStatus = 0;
+  for (const path of [CONFIG.chat, CONFIG.chat.replace("/webhook/", "/webhook-test/")]) {
+    const r = await fetch(CONFIG.n8nBase + path, {
+      method: "POST",
+      headers: HEADERS,
+      body: JSON.stringify({ action: "sendMessage", sessionId: sid, chatInput: q })
+    });
+    if (r.ok) {
+      setServerStatus(true);
+      const raw = await r.text();
+      try {
+        const j = JSON.parse(raw);
+        return j.output || j.text || j.message || raw;
+      } catch (e) {
+        return raw || "No response received.";
+      }
+    }
+    lastStatus = r.status;
+    if (r.status !== 404) break;
+  }
+  throw new Error(lastStatus === 404
+    ? "HTTP 404: The RAG workflow is not Active in n8n yet."
+    : "HTTP " + lastStatus);
+}
+
+$("#cf").onsubmit = async e => {
+  e.preventDefault();
+  const q = ci.value.trim();
+  if (!q) return;
+  ci.value = "";
+  appendMessage(q, "u");
+  const botBubble = appendMessage("Thinking…", "b");
+  try {
+    const reply = await sendChatQuery(q);
+    botBubble.innerHTML = formatMarkdown(reply);
+  } catch (err) {
+    botBubble.className = "m b err";
+    botBubble.innerHTML = `<strong>Couldn't reach the n8n assistant.</strong>
+      <div class="err-help">
+        1. Make sure your <b>ngrok</b> tunnel is running: <code>ngrok http --url=awoke-roster-mayflower.ngrok-free.dev 5678</code><br>
+        2. Open <b>Rag.json</b> in n8n (<code>localhost:5678</code>), toggle it to <b>Active</b>, and inside the <b>When chat message received</b> node, enable <b>Make Chat Publicly Available</b> + set Allowed Origins (CORS) to <code>*</code>.
+      </div>`;
+    setServerStatus(false);
+  }
+  log.scrollTop = log.scrollHeight;
+};
+
+document.addEventListener("pointermove", e => {
+  const t = e.target.closest && e.target.closest(".tilt");
+  if (t) {
+    const r = t.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    t.style.transform = `perspective(800px) rotateX(${-y * 4}deg) rotateY(${x * 5}deg)`;
+  }
+});
+$$(".tilt").forEach(t => t.addEventListener("pointerleave", () => t.style.transform = ""));
+$$(".mag").forEach(m => {
+  m.addEventListener("pointermove", e => {
+    const r = m.getBoundingClientRect();
+    m.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.12}px, ${(e.clientY - r.top - r.height / 2) * 0.18}px)`;
+  });
+  m.addEventListener("pointerleave", () => m.style.transform = "");
+});
 </script>
 </body>
 </html>
-<!-- NEXORA AI - HR Policy Assistant -->
-<section id="hr-assistant" style="background:#0b1224;color:#fff;padding:60px 20px;font-family:Arial,sans-serif;">
-  <div style="max-width:850px;margin:auto;">
-    <h2 style="text-align:center;color:#22d3ee;font-size:32px;">NEXORA AI — HR Assistant</h2>
-    <p style="text-align:center;color:#aab6cc;">Ask anything about HR policies and get instant AI answers.</p>
-
-    <div id="chat-box" style="height:350px;overflow-y:auto;background:#111c32;border:1px solid #263754;border-radius:14px;padding:18px;margin:25px 0;">
-      <div style="color:#22d3ee;margin-bottom:15px;">NEXORA AI: Hello! How can I help you with HR policies today?</div>
-    </div>
-
-    <form id="hr-chat-form" style="display:flex;gap:10px;">
-      <input id="hr-chat-input" type="text" placeholder="Ask your HR question..." required
-        style="flex:1;min-width:0;padding:15px;border-radius:10px;border:1px solid #334766;background:#17243c;color:white;">
-      <button id="hr-chat-send" type="submit"
-        style="padding:15px 22px;border:0;border-radius:10px;background:#06b6d4;color:#00111c;font-weight:bold;cursor:pointer;">
-        Send
-      </button>
-    </form>
-    <p id="hr-chat-status" style="color:#94a3b8;font-size:13px;"></p>
-  </div>
-</section>
-
-<script>
-(() => {
-  const CHAT_URL = "https://awoke-roster-mayflower.ngrok-free.dev/webhook/ac1e95ba-5d8e-4ea9-8da4-84d01ce45f79/chat";
-  const SESSION_ID = localStorage.getItem("nexora_chat_session")
-  || crypto.randomUUID();
-
-localStorage.setItem("nexora_chat_session", SESSION_ID);
-
-  const form = document.getElementById("hr-chat-form");
-  const input = document.getElementById("hr-chat-input");
-  const box = document.getElementById("chat-box");
-  const button = document.getElementById("hr-chat-send");
-  const status = document.getElementById("hr-chat-status");
-
-  function addMessage(sender, message, color) {
-    const item = document.createElement("div");
-    item.style.cssText = "margin:12px 0;padding:12px;background:#1a2942;border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere;";
-    const title = document.createElement("strong");
-    title.style.color = color;
-    title.textContent = sender + ": ";
-    const content = document.createElement("span");
-    content.textContent = message;
-    item.append(title, content);
-    box.appendChild(item);
-    box.scrollTop = box.scrollHeight;
-  }
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const question = input.value.trim();
-    if (!question) return;
-
-    addMessage("You", question, "#fff");
-    input.value = "";
-    button.disabled = true;
-    status.textContent = "NEXORA AI is thinking...";
-
-    try {
-      const response = await fetch(CHAT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-       body: JSON.stringify({
-  chatInput: question,
-         action: "sendMessage",
-  sessionId: SESSION_ID
-})
-      });
-
-      if (!response.ok) throw new Error("HTTP " + response.status);
-
-      const data = await response.json();
-      const answer = typeof data === "string"
-        ? data
-        : data.output || data.text || data.response || data.message || data.reply || JSON.stringify(data);
-
-      addMessage("NEXORA AI", answer, "#22d3ee");
-      status.textContent = "";
-    } catch (error) {
-      addMessage("System", "Couldn't connect to the assistant. Please try again.", "#f87171");
-      status.textContent = "Connection error: " + error.message;
-    } finally {
-      button.disabled = false;
-      input.focus();
-    }
-  });
-})();
-</script>
